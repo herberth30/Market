@@ -2,7 +2,12 @@ package com.herberth.barrientos.market.web.controller;
 
 import com.herberth.barrientos.market.domain.Product;
 import com.herberth.barrientos.market.domain.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,12 +27,17 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    //@Operation(summary = "foo", description = "bar")
     @GetMapping("all")
+    @Operation(description = "Get all supermarket products")
+    @ApiResponse(responseCode = "200", description = "OK")
     public ResponseEntity<List<Product>> getAll() {
     return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @Operation(description = "Get a product by id")
+
     public ResponseEntity<Product> getProduct(@PathVariable("id") int productId){
         return productService.getProduct(productId)
                 .map(product -> new ResponseEntity<>(product, HttpStatus.OK))
